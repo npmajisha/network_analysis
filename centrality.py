@@ -1,11 +1,10 @@
 __author__ = 'Majisha'
 import sys
 import networkx as nx
-import pickle
 
 def write_to_file(filename, centrality):
     output_file = open(filename,"a")
-    sorted_centrality = sorted(centrality.items(),key = lambda x:(x[1],x[0]), reverse=True)
+    sorted_centrality = sorted(centrality.items(),key = lambda x:(-x[1],x[0]))
     for key, value in sorted_centrality:
         output_file.write(str(key)+" "+str(value)+"\n")
     output_file.close()
@@ -32,23 +31,23 @@ def main():
     #calculate network centrality for this graph
     print("Computing betweenness centrality")
     betweenCentrality = nx.betweenness_centrality(Graph)
-    print(betweenCentrality)
     write_to_file("betweenness_"+str(type), betweenCentrality)
 
     print("Computing eigen vector centrality")
     eigenVectorCentrality = nx.eigenvector_centrality(Graph)
-    print(eigenVectorCentrality)
     write_to_file("eigenvector_"+str(type), eigenVectorCentrality)
 
     print("Computing page rank centrality")
     pageRankCentrality = nx.pagerank(Graph)
-    print(pageRankCentrality)
     write_to_file("pagerank_"+str(type), pageRankCentrality)
 
     print("Computing degree centrality")
     degreeCentrality = nx.degree_centrality(Graph)
-    print(degreeCentrality)
     write_to_file("degree_"+str(type), degreeCentrality)
+
+    print("Computing clustering coefficient")
+    clusteringCoefficient = nx.clustering(Graph)
+    write_to_file("clustering_"+str(type), clusteringCoefficient);
 
 
     return
